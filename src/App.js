@@ -1,10 +1,18 @@
-import './App.css';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import OffersListPage from './pages/OffersListPage';
+import OffersPage from './pages/OffersPage';
+import './App.scss'
 
 function App() {
   return (
-    <div className="app">
-      
-    </div>
+    <>
+      <BrowserRouter>
+        <Switch>
+          <Route path='/all-offers' component={OffersListPage} />
+          <Route path='/' component={OffersPage} />
+        </Switch>
+      </BrowserRouter>
+    </>
   );
 }
 

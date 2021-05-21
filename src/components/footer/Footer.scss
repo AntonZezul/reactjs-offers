@@ -1,0 +1,41 @@
+.footer {
+    padding: 3rem 0;
+    margin-top: auto;
+    background: #EDC501;
+
+    .footer__items {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+
+        .footer__logo {
+            width: 8rem;
+            height: 8rem;
+        }
+
+        .footer__nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+
+            .footer__menu-item{
+                margin: 0.5rem 0;
+
+                .footer__menu-link {
+                    font-size: 1rem;
+                    line-height: 1.5rem;
+                    font-weight: 700;
+                    text-decoration: none;
+                    color: #535151;
+                    
+                    &:hover, &:active, &:focus{
+                        color: #3a3939;
+                    }
+                }
+            }
+
+            
+        }
+    }
+}

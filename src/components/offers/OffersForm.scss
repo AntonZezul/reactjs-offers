@@ -1,0 +1,80 @@
+.offers-form {
+    background-color: #292929;
+
+    .offers-form__title {
+        margin-right: 1rem;
+        margin: 0 1rem 2rem 0;
+        padding-bottom: 0.625rem;
+        position: relative;
+        font-weight: 500;
+        font-size: 2.25rem;
+        line-height: 2.625rem;
+        color: #fff;
+
+        &::after {
+            width: 13rem;
+            height: 0.1875rem;
+
+            position: absolute;
+            bottom: 0;
+            left: 0;
+
+            background-color: #EDC501;
+
+            display: block;
+            content: '';
+        }
+    }
+
+    .offers-form__form {
+        display: flex;
+        flex-wrap: wrap;
+
+        .offers-form__field {
+            width: 100%;
+            margin: 1rem 3rem;
+            padding: 1rem 2rem;
+
+            background-size: 1.25rem;
+            border: 0;
+            border-bottom: 2px solid #BFC0C5;
+
+            font-weight: 500;
+            font-size: 1.125rem;
+            color: white;
+
+            &::placeholder {
+                font-size: 1.125rem;
+            }
+        }
+
+        .offers-form__field_desc {
+            width: 100%;
+            min-height: 10rem;
+        }
+
+        .offers-form__field-upload {
+            width: 100%;
+            margin: 1rem 3rem;
+            display: none;
+        }
+
+        .offers-form__submit {
+            padding: 1rem 2rem;
+            margin: 0 auto;
+
+            text-transform: uppercase;
+            font-weight: 500;
+            font-size: 1.5rem;
+            border: 0;
+
+            background: #EDC501;
+
+            &:hover,
+            &:active,
+            &:focus {
+                background: #c29f02;
+            }
+        }
+    }
+}
