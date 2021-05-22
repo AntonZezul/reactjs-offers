@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import './OffersForm.scss';
 
 const OffersForm = () => {
+  const fileRef = useRef(null)
+
   return (
     <main>
       <div className='offers-form'>
@@ -24,13 +26,15 @@ const OffersForm = () => {
               name='offer-desc'
               placeholder='Your offer'
             />
-            <div className='offers-form__field-upload'>
+            <div className='offers-form__field-upload' onClick={()=>{fileRef.current.click()}}>
+              <p className='offers-form__field-upload-title'>Drag or Click to upload image</p>
               <input
+                id='upload-button'
+                ref={fileRef}
                 className='offers-form__field-upload-button'
                 type='file'
                 name='address'
               />
-              
             </div>
             <button className='offers-form__submit' type='submit'>
               Submit
