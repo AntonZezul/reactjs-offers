@@ -2,7 +2,7 @@ import React from 'react';
 import Footer from '../components/footer/Footer';
 import Header from '../components/header/Header';
 import Intro from '../components/intro/Intro';
-import OffersForm from '../components/offers/OffersForm';
+import OffersForm from '../components/offers-form/OffersForm';
 import './Pages.scss';
 
 const OffersPage = () => {

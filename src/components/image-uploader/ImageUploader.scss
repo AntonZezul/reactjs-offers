@@ -1,0 +1,45 @@
+.offers-form__field-upload {
+    width: 100%;
+    margin: 1rem 3rem;
+    min-height: 10rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 2px dashed #fff;
+    cursor: pointer;
+
+    transition: .2s linear;
+
+    &:hover,
+    &:focus,
+    &:active {
+        .offers-form__field-upload-title {
+            opacity: 1;
+        }
+    }
+
+    .offers-form__field-upload-group {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+
+        .offers-form__field-upload-title {
+            opacity: .75;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #fff;
+        }
+    }
+
+    .offers-form__field-upload-thumb {
+        width: 15rem;
+        height: auto;
+        margin-top: 2rem;
+    }
+
+    .offers-form__field-upload-button {
+        display: none;
+    }
+}
