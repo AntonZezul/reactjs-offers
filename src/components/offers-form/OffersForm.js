@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import './OffersForm.scss';
@@ -9,12 +9,54 @@ const validationSchema = Yup.object({
   name: Yup.string().required('Full Name is required'),
   address: Yup.string().required('Address is required'),
   description: Yup.string().required('Description is required'),
-  image: Yup.string().required('Image is required')
+  image: Yup.string().required('Image is required'),
 });
 
 const OffersForm = () => {
   const { firestore, firebase } = useContext(Context);
-  const [imageActive, setimageActive] = useState(false)
+  const [imageActive, setimageActive] = useState(false);
+  const [imageData, setimageData] = useState();
+  const [dragging, setDragging] = useState(false);
+  const dropRef = useRef();
+  let dragCounter = 0;
+
+  const handleDragIn = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dragCounter++;
+    if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
+      setDragging(true);
+    }
+  };
+
+  const handleDragOut = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dragCounter--;
+    if (dragCounter > 0) return;
+    setDragging(false);
+  };
+
+  const handleDrag = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  useEffect(() => {
+    const div = dropRef.current;
+    div.addEventListener('dragenter', handleDragIn);
+    div.addEventListener('dragleave', handleDragOut);
+    div.addEventListener('dragover', handleDrag);
+    div.addEventListener('drop', handleDrop);
+
+    return () => {
+      div.removeEventListener('dragenter', handleDragIn);
+      div.removeEventListener('dragleave', handleDragOut);
+      div.removeEventListener('dragover', handleDrag);
+      div.removeEventListener('drop', handleDrop);
+    };
+    // eslint-disable-next-line
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -34,20 +76,36 @@ const OffersForm = () => {
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         });
         resetForm();
-        setimageActive(false)
-      } catch (e) {
-      }
+        setimageActive(false);
+      } catch (e) {}
     },
   });
 
-  const {
-    values,
-    errors,
-    touched,
-    handleSubmit,
-    handleChange,
-    resetForm,
-  } = formik;
+  const { values, errors, touched, handleSubmit, handleChange, resetForm } =
+    formik;
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragging(false);
+    Array.from(e.dataTransfer.files).forEach((el) => {
+      if (el && e.dataTransfer.files.length > 0 && el.type.includes('image')) {
+        const reader = new FileReader();
+
+        reader.onload = (ev) => {
+          setimageData(ev.target.result);
+          values.image = ev.target.result;
+          setimageActive(true);
+        };
+
+        reader.readAsDataURL(e.dataTransfer.files[0]);
+        e.dataTransfer.clearData();
+        dragCounter = 0;
+      } else {
+        return;
+      }
+    });
+  };
 
   return (
     <main>
@@ -64,7 +122,9 @@ const OffersForm = () => {
                 value={values.name}
                 onChange={handleChange}
               />
-              {touched.name && <p className='offers-form__field-error'>{errors.name}</p>}
+              {touched.name && (
+                <p className='offers-form__field-error'>{errors.name}</p>
+              )}
             </div>
 
             <div className='offers-form__form-group'>
@@ -76,7 +136,9 @@ const OffersForm = () => {
                 value={values.address}
                 onChange={handleChange}
               />
-              {touched.address && <p className='offers-form__field-error'>{errors.address}</p>}
+              {touched.address && (
+                <p className='offers-form__field-error'>{errors.address}</p>
+              )}
             </div>
 
             <div className='offers-form__form-group'>
@@ -88,18 +150,25 @@ const OffersForm = () => {
                 value={values.description}
                 onChange={handleChange}
               />
-              {touched.description && <p className='offers-form__field-error'>{errors.description}</p>}
+              {touched.description && (
+                <p className='offers-form__field-error'>{errors.description}</p>
+              )}
             </div>
-            <div className='offers-form__form-group'>
+            <div className='offers-form__form-group' ref={dropRef}>
               <ImageUploader
-              imageActive={imageActive}
-              setimageActive={setimageActive}
+                imageDrop={imageData}
+                dropRef={dropRef}
+                imageActive={imageActive}
+                setimageActive={setimageActive}
+                dragble={dragging}
                 onFileSelect={(image) => {
+                  setimageData('');
                   values.image = image;
-                  console.log(image)
                 }}
               />
-              {touched.image && <p className='offers-form__field-error'>{errors.image}</p>}
+              {touched.image && (
+                <p className='offers-form__field-error'>{errors.image}</p>
+              )}
             </div>
             <div className='offers-form__form-group'>
               <button className='offers-form__submit' type='submit'>

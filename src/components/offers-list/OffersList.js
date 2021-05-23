@@ -5,7 +5,6 @@ import './OffersList.scss';
 
 const OffersList = () => {
   const { firestore } = useContext(Context);
-  const [cardActive, setcardActive] = useState(false);
   const [offersList, setoffersList] = useState([]);
 
   useEffect(() => {
@@ -18,7 +17,7 @@ const OffersList = () => {
   }, [firestore]);
 
   return (
-    <div id='off' className='offers'>
+    <div className='offers'>
       <div className='wrapper-offers'>
         <h2 className='offers__title'>List of offers</h2>
         {offersList && offersList.length === 0 && (
@@ -32,14 +31,8 @@ const OffersList = () => {
                   b.data().createdAt.seconds * 1000 -
                   a.data().createdAt.seconds * 1000
               )
-              .map((card, i) => {
-                return (
-                  <OfferCard
-                    key={card.data().createdAt}
-                    card={card}
-                    cardActive={cardActive}
-                  />
-                );
+              .map((card) => {
+                return <OfferCard key={card.data().createdAt} card={card} />;
               })}
         </div>
       </div>
