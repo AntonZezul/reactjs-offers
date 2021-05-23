@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './OfferCard.scss'
 
 const OfferCard = ({ card }) => {
   const [cardActive, setcardActive] = useState(false);
